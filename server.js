@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const Secret = "thuje dhekha tho ye jana sanam"
 const JWT = require("jsonwebtoken")
-const {authrequire} = require("./models/confirm/JWTauth.js")
+const { authrequire } = require("./models/confirm/JWTauth.js")
 const app = express();
 const cookieParser = require("cookie-parser");
 const Order = require("./models/Orders");
@@ -18,10 +18,10 @@ app.use(express.urlencoded({ extended: true }));
 // app.use(auth)
 const category_API = require("./APIs/category.js");
 const order_API = require("./APIs/orderitems.js");
-const product_API =require("./APIs/product.js")
-app.use("/Api",category_API)
-app.use('/Api',order_API);
-app.use("/Api",product_API);
+const product_API = require("./APIs/product.js")
+app.use("/Api", category_API)
+app.use('/Api', order_API);
+app.use("/Api", product_API);
 
 
 
@@ -53,21 +53,12 @@ app.post("/register", async (req, res) => {
         return res.status(200).json({ message: "User has been registered" });
     }
     catch (error) {
-        console.log(error);
         return res.status(500).json({ message: "Internal server error" }); // More generic error message
     }
 });
 
-app.get("/p",authrequire,(req,res)=>{
-    try{
-        console.log("wdad")
-        res.send("adwd")
-    }catch(err){
-        console.log(err)
-    }
-})
 
-app.get("/get_user", authrequire,async (req, res) => {
+app.get("/get_user", authrequire, async (req, res) => {
     const { id } = req.body;
 
     try {
@@ -77,19 +68,17 @@ app.get("/get_user", authrequire,async (req, res) => {
         return res.status(200).json(user)
     }
     catch (err) {
-        console.log(err);
         return res.status(500).json(err)
     }
 })
 
-const create_token =(ID)=>{
-    return JWT.sign({ID},Secret)
+const create_token = (ID) => {
+    return JWT.sign({ ID }, Secret)
 }
 app.post("/login", async (req, res) => {  // added async
     const { Email, Password } = req.body;
 
     try {
-        console.log(Email, Password);
         const user = await User.findOne({ Email });  // added await
 
         if (!user) {
@@ -98,14 +87,13 @@ app.post("/login", async (req, res) => {  // added async
 
         if (bcrypt.compareSync(Password, user.Password)) {
             let token = create_token(user._id)
-            res.cookie("new_cookie",token,{httpOnly:true,maxAge:99999991000009})
+            res.cookie("new_cookie", token, { httpOnly: true, maxAge: 99999991000009 })
             return res.status(200).json({ email: user.Email, token: token });  // changed email key to user.Email
         } else {
             return res.status(400).json({ message: "Password is incorrect" });  // changed status code to 400
         }
 
     } catch (err) {
-        console.log(err);
         return res.status(500).json({ message: "Internal server error" });  // generic error message
     }
 });

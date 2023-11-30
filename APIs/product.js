@@ -23,7 +23,6 @@ Router.post("/updateproduct", authrequire,async (req, res) => {
         if (!product_update) { return res.status(404).json({ message: "product cannot be updated" }) }
         return res.status(200).json({ message: "product has been updated" });
     } catch (error) {
-        console.log(error);
         return res.status(500).json(error);
     }
 })
@@ -62,7 +61,6 @@ Router.post("/allproduct", authrequire,async (req, res) => {
         const productdata = await Product.findById(ID).populate('category');
         return res.status(200).json(productdata);
     } catch (error) {
-        console.log(error);
         return res.status(500).json(error)
     }
 })

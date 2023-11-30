@@ -11,12 +11,12 @@ const ProductSchema = new mongoose.Schema({
     isFeatured: { type: Boolean, default: false },
     dateCreated: { type: Date, default: Date.now }
 })
-ProductSchema.virtual('id').get(function(){
+ProductSchema.virtual('id').get(function () {
     return this._id.toHexString();
 })
 
-ProductSchema.set('toJSON',{
-    virtuals : true,
+ProductSchema.set('toJSON', {
+    virtuals: true,
 });
 
 const Product = mongoose.model("Product", ProductSchema);

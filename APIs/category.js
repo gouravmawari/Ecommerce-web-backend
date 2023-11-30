@@ -28,7 +28,6 @@ Router.post("/getcategory",authrequire, async (req, res) => {
 
         return res.status(200).json(category);
     } catch (error) {
-        console.log(error);
         return res.status(500).json({ message: "An error occurred while processing your request.", error: error.message });
     }
 });
@@ -41,18 +40,15 @@ Router.post("/deletecategory", authrequire,async(req, res) => {
         if (!delet) { res.status.json({ message: "ID does not exist" }) }
         return res.status(202).json({ message: "category is delted" });
     } catch (error) {
-        console.log(error);
         return res.status(500).json(error)
     }
 })
 
 Router.get("/allcategory", authrequire,async (req, res) => {
-    console.log("helllo")
     try {
         const allCategories = await Category.find();
         return res.status(200).json(allCategories);
     } catch (error) {
-        console.log(error);
         return res.status(500).json({ message: "An error occurred while fetching categories", error: error.message });
     }
 });
@@ -63,7 +59,6 @@ Router.get("/getcategoryID", authrequire,async (req, res) => {
         const category = await Category.findById(ID)
         return res.status(200).json(category)
     } catch (error) {
-        console.log(error);
         return res.status(500).json(error)
     }
 })

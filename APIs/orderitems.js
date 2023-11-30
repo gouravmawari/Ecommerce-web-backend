@@ -18,7 +18,6 @@ Router.get("/getmyorders",authrequire,async(req,res)=>{
         }
         return res.status(200).json(UserOrder)
     }catch(error){
-        console.log(error);
         return res.status(500).json(error);
     }
 })
@@ -42,7 +41,6 @@ Router.delete("/deltorder", authrequire,async (req, res) => {
         return res.status(200).json({ message: "Order and associated items deleted" });
 
     } catch (error) {
-        console.log(error);
         res.status(500).json(error);
     }
 });
@@ -52,7 +50,6 @@ Router.get("/order_list", authrequire,async (req, res) => {
         const order_list = await Order.find().populate([{ path: 'Orderitem', model: "Orderitem", populate: 'Product' }, { path: "User", model: "product_user", select: 'Name id ' }]);
         return res.status(200).json(order_list);
     } catch (error) {
-        console.log(error)
         return res.status(500).json(error);
     }
 })
@@ -102,7 +99,6 @@ Router.post("/order",authrequire, async (req, res) => {
         return res.status(200).json(populatedOrder);
 
     } catch (error) {
-        console.log(error);
         return res.status(500).json({ message: "Internal Server Error", error: error.message });
     }
 });
